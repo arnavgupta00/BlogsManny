@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { backendServer } from "@/components/backendServer";
 
 
 interface FormData {
@@ -36,9 +35,8 @@ const BlogForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const backendURL = backendServer;
     try {
-        const response = await fetch(`${backendURL}/blogs`, {
+        const response = await fetch(`/api/blogs`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -49,6 +47,16 @@ const BlogForm: React.FC = () => {
           // Blog created successfully
           // Redirect or display success message
           console.log("Blog created successfully");
+          setFormData({
+            sender: "",
+            category: "",
+            title: "",
+            shortDescription: "",
+            content: "",
+            imageURL: "",
+            URL: "",
+            password: "",
+          });
         } else {
           // Handle error response
           console.error("Failed to create blog");

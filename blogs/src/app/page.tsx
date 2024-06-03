@@ -20,7 +20,7 @@ export default function Home() {
     "Entertainment",
   ];
   const navigation = [
-    { name: "Blogs", href: "categories/category" },
+    { name: "Blogs", href: "categories/All" },
     { name: "Contact", href: "contact" },
   ];
   

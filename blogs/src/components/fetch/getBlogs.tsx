@@ -1,8 +1,6 @@
-import "dotenv/config";
-
+import axios from 'axios';
 import Message, { Project } from "@/components/schema/schema";
 import messageList from "@/components/testData/messages";
-import { backendServer } from "@/components/backendServer";
 
 const messages: Message[] = messageList();
 
@@ -16,16 +14,17 @@ const project: Project = {
   imageURL: messages[0]?.imageURL,
   repository: "string",
 };
-const backendURL = backendServer;
+
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export const fetchBlog = async (blogId: number) => {
   try {
-    const response = await fetch(`${backendURL}/blogs/${blogId}`);
+    const response = await axios.get(`${backendUrl}/api/blogs/${blogId}`);
 
-    if (response.ok) {
-      const blog = await response.json();
-      return blog;
+    if (response.status === 200) {
+      return response.data;
     } else {
-      console.error("Error fetching blog post reqSent:", response.statusText);
+      console.error("Error fetching blog post:", response.statusText);
       // Handle error (e.g., display an error message)
       return project;
     }
@@ -33,21 +32,18 @@ export const fetchBlog = async (blogId: number) => {
     console.error("Error fetching blog post:", error);
     // Handle error (e.g., display an error message)
     return project;
-
   }
 };
 
-export const fetchBlogs = async (category:string) => {
+export const fetchBlogs = async (category: string) => {
   try {
-    const response = await fetch(`${backendURL}/blogs/category/${category}`);
+    const response = await axios.get(`${backendUrl}/api/blogs/category/${category}`);
 
-    if (response.ok) {
-      const blogsData = await response.json();
-      return blogsData;
+    if (response.status === 200) {
+      return response.data;
     } else {
-      console.error('Error fetching blogs reqSent:', response.statusText);
+      console.error('Error fetching blogs:', response.statusText);
       // Handle error (e.g., display an error message)
-      
       return messages;
     }
   } catch (error) {
@@ -56,20 +52,17 @@ export const fetchBlogs = async (category:string) => {
     return messages;
   }
 };
+
 export const fetchCategories = async () => {
   try {
-    const response = await fetch(`${backendURL}/categories`);
-    if (response.ok) {
-      var categories = await response.json();
-      categories = categories.map((item: { category: any; }) => item.category);
+    const response = await axios.get(`${backendUrl}/api/categories/All`);
 
-      
+    if (response.status === 200) {
+      const categories = response.data.map((item: { category: any; }) => item.category);
       return categories;
     } else {
-      console.error('Error fetching categories Req:', response.statusText);
+      console.error('Error fetching categories:', response.statusText);
       // Handle error (e.g., display an error message)
-      
-      
       return [];
     }
   } catch (error) {

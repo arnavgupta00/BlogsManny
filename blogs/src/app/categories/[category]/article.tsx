@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Eye, View } from "lucide-react";
 import Message from "@/components/schema/schema";
-import { setBlogId } from "@/components/variableSet/variableSet";
 import { useRouter } from "next/navigation";
 
 type Props = {
@@ -18,8 +17,8 @@ export const Article: React.FC<Props> = ({ project, views }) => {
     <article
       onClick={() => {
         console.log("clicked");
-        setBlogId(project.id);
-        router.push(`blogs/id`);
+        //setBlogId(project.id);
+        router.push(`blogs/${project.id}`);
       }}
       className="p-4 md:p-8"
     >
