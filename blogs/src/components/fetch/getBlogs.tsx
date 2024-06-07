@@ -1,3 +1,4 @@
+"use server"
 import axios from 'axios';
 import Message, { Project } from "@/components/schema/schema";
 import messageList from "@/components/testData/messages";
@@ -16,6 +17,27 @@ const project: Project = {
 };
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+export const postBlog = async (formData: any) => {
+  try {
+    const response = await axios.post(`${backendUrl}/api/blogs`, formData);
+
+    if (response.status === 201) {
+      // Blog created successfully
+      // Redirect or display success message
+      console.log("Blog created successfully");
+      return true;
+    } else {
+      console.error("Error creating blog post:", response.statusText);
+      // Handle error (e.g., display an error message)
+      return false;
+    }
+  } catch (error) {
+    console.error("Error creating blog post:", error);
+    // Handle error (e.g., display an error message)
+    return false;
+  }
+}
 
 export const fetchBlog = async (blogId: number) => {
   try {

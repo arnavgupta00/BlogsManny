@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest,{ params }: { params: { category: string } }) {
   const { category } = params;
-
+	
   try {
     const blogs = category === 'All'
       ? await prisma.message.findMany({
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest,{ params }: { params: { category: str
     if (!blogs || blogs.length === 0) {
       return NextResponse.json({ error: 'No blogs found' }, { status: 404 });
     }
-
+	console.log("i am returning something");
     return NextResponse.json(blogs, { status: 200 });
   } catch (err) {
     console.error("err");

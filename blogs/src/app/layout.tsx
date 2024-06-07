@@ -4,43 +4,7 @@ import LocalFont from "@next/font/local";
 import { Metadata } from "next";
 import 'tailwindcss/tailwind.css';
 
-export const metadata: Metadata = {
-  title: {
-    default: "2blive",
-    template: "2blive",
-  },
-  description: "A livestreaming platform for everyone",
-  openGraph: {
-    title: "A livestreaming platform for everyone",
-    description: "A livestreaming platform for everyone",
-    url: "https://2blive.pro",
-    siteName: "2blive",
-    images: [
-      {
-        url: "https://2blive.pro/2blive.png",
-        width: 1920,
-        height: 1080,
-      },
-    ],
-    locale: "en-US",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
- 
-  icons: {
-    shortcut: "/favicon.png",
-  },
-};
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",

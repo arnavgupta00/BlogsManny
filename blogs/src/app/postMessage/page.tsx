@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, ChangeEvent, FormEvent } from "react";
-
+import { postBlog } from "@/components/fetch/getBlogs";
 
 interface FormData {
   sender: string;
@@ -36,14 +36,8 @@ const BlogForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-        const response = await fetch(`/api/blogs`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
-        if (response.ok) {
+        const response = await postBlog(formData);
+        if (response) {
           // Blog created successfully
           // Redirect or display success message
           console.log("Blog created successfully");

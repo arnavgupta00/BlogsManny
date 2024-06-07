@@ -1,9 +1,11 @@
-import { Eye, Link } from "lucide-react";
+import { Metadata, ResolvingMetadata } from 'next';
+import { Eye, Link as LucideLink } from "lucide-react";
 import { Card } from "@/components/card/card";
 import { Article } from "@/app/categories/[category]/article";
 import { fetchBlogs, fetchCategories } from "@/components/fetch/getBlogs";
 import Button from "@/components/Button/button";
 import LinkA from "next/link";
+
 interface Message {
   id: number;
   sender: string;
@@ -16,6 +18,39 @@ interface Message {
   views: number;
   imageURL?: string;
   URL?: string;
+}
+
+// Fetch data at the server side
+export async function generateMetadata(
+  { params }: { params: { category: string } },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const category = params.category;
+
+  // Fetch categories and blogs data
+  const categoriesList: string[] = await fetchCategories();
+  const messages: Message[] = await fetchBlogs(category);
+
+  const featured = messages[0];
+  
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: category ? `${category} Blog's`: 'Home Page',
+    description: featured ? featured.shortDescription : 'Welcome to our homepage',
+    openGraph: {
+      title: category ? `Category: ${category}` : 'Home Page',
+      description: featured ? featured.shortDescription : 'Welcome to our homepage',
+      images: featured?.imageURL ? [featured.imageURL, ...previousImages] : previousImages,
+      type: 'website',
+      url: `http://194.164.125.204:4173`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: category ? `Category: ${category}` : 'Home Page',
+      description: featured ? featured.shortDescription : 'Welcome to our homepage',
+    },
+  };
 }
 
 

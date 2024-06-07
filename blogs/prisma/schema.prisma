@@ -19,8 +19,8 @@ model Message {
   sender           String?
   category         String
   title            String
-  shortDescription String
-  content          String
+  shortDescription String   @db.Text
+  content          String   @db.Text
   timestamp        DateTime @default(now())
   replies          Int      @default(0)
   views            Int      @default(0)
