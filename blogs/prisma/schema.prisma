@@ -26,4 +26,5 @@ model Message {
   views            Int      @default(0)
   imageURL         String?
   URL              String?
+  createdAt        DateTime @default(now())
 }

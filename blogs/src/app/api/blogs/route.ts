@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export async function POST(req: NextRequest) {
   const { sender, category, title, shortDescription, content, imageURL, URL, password } = await req.json();
 
-  if (password !== process.env.BLOG_CREATION_PASSWORD) {
+  if (password !== process.env.ADMIN_PASSWORD) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   const { blogID, password } = await req.json();
   const id = parseInt(blogID);
-  if (password !== process.env.BLOG_CREATION_PASSWORD) {
+  if (password !== process.env.ADMIN_PASSWORD) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
