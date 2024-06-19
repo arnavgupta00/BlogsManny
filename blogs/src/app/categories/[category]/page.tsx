@@ -174,7 +174,7 @@ export default async function HomePage({
                   <div className="flex items-center justify-between gap-2">
                     <div className="text-xs text-black-100">
                       {featured?.timestamp ? (
-                        <time dateTime={featured?.timestamp}>
+                        <time className="text-gray-50" dateTime={featured?.timestamp}>
                           {Intl.DateTimeFormat(undefined, {
                             dateStyle: "medium",
                           }).format(new Date(featured?.timestamp))}

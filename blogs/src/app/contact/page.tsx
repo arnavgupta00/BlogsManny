@@ -10,21 +10,21 @@ export default function Component() {
       <div style={cardContentStyle}>
         <div style={contentGridStyle}>
           <div style={{ ...inputGroupStyle, flexDirection: 'column' }}>
-            <label htmlFor="first-name" style={labelStyle}>First name</label>
-            <input id="first-name" placeholder="First name" style={inputStyle} />
+            <label htmlFor="first-name" className="text-gray-50" style={labelStyle}>First name</label>
+            <input id="first-name" className="bg-black" placeholder="First name" style={inputStyle} />
           </div>
           <div style={{ ...inputGroupStyle, flexDirection: 'column' }}>
-            <label htmlFor="last-name" style={labelStyle}>Last name</label>
-            <input id="last-name" placeholder="Last name" style={inputStyle} />
+            <label htmlFor="last-name" className="text-gray-50" style={labelStyle}>Last name</label>
+            <input id="last-name" className="bg-black" placeholder="Last name" style={inputStyle} />
           </div>
           <div style={{ ...inputGroupStyle, flexDirection: 'column' }}>
-            <label htmlFor="email" style={labelStyle}>Email</label>
-            <input id="email" placeholder="Email" type="email" style={inputStyle} />
+            <label htmlFor="email" className="text-gray-50" style={labelStyle}>Email</label>
+            <input id="email" className="bg-black" placeholder="Email" type="email" style={inputStyle} />
           </div>
         </div>
         <div style={{ ...inputGroupStyle, flexDirection: 'column' }}>
-          <label htmlFor="message" style={labelStyle}>Message</label>
-          <textarea className="min-h-[100px]" id="message" placeholder="Enter your message" style={{ ...inputStyle, minHeight: '100px' }} />
+          <label htmlFor="message" className="text-gray-50" style={labelStyle}>Message</label>
+          <textarea className="min-h-[100px] bg-black " id="message" placeholder="Enter your message" style={{ ...inputStyle, minHeight: '100px' }} />
         </div>
       </div>
       <div style={{textAlign: 'right'}}>
@@ -96,8 +96,8 @@ const buttonStyle = {
   padding: '8px 16px',
   fontSize: '14px',
   fontWeight: '600',
-  color: '#fff',
-  backgroundColor: '#3b82f6',
+  color: '#000000',
+  backgroundColor: '#ffffff',
   border: 'none',
   borderRadius: '4px',
   cursor: 'pointer'
