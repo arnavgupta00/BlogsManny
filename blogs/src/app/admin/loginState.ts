@@ -1,12 +1,17 @@
 "use server";
 import { prismaConnect } from "@/db/prismaGenerate";
+import axios from 'axios';
 
 var loginBoolean = false;
 export async function SetloginState(email: string, password: string) {
-  if (
-    email == process.env.ADMIN_EMAIL &&
-    password == process.env.ADMIN_PASSWORD
-  ) {
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  const response = await axios.post(`${backendUrl}/api/admin`, {
+    email: email,
+    password: password,
+  });
+  console.log(response.status);
+  if (response.status == 200) {
     loginBoolean = true;
   } else {
     loginBoolean = false;

@@ -40,7 +40,7 @@ const router = useRouter();
                 <div
                   key={index}
                   className="w-full flex flex-row justify-start items-center bg-gray-50 text-gray-700 shadow-lg rounded-lg p-4"
-                  onClick={()=>router.push(`/categories/blogs/${blog.id}`)}
+                  //onClick={()=>router.push(`/categories/blogs/${blog.id}`)}
                 >
                   <div className="w-5/6   flex flex-col gap-2">
                     <div className="text-lg font-semibold cursor-pointer" onClick={()=>router.push(`/categories/blogs/${blog.id}`)}>{blog.title}</div>
