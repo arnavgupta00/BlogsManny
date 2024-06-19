@@ -1,10 +1,11 @@
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata, ResolvingMetadata } from "next";
 import { Eye, Link as LucideLink } from "lucide-react";
 import { Card } from "@/components/card/card";
 import { Article } from "@/app/categories/[category]/article";
 import { fetchBlogs, fetchCategories } from "@/components/fetch/getBlogs";
 import Button from "@/components/Button/button";
 import LinkA from "next/link";
+import Particles from "@/components/Particles/particles";
 
 interface Message {
   id: number;
@@ -32,28 +33,34 @@ export async function generateMetadata(
   const messages: Message[] = await fetchBlogs(category);
 
   const featured = messages[0];
-  
+
   const previousImages = (await parent).openGraph?.images || [];
 
   return {
-    title: category ? `${category} Blog's`: 'Home Page',
-    description: featured ? featured.shortDescription : 'Welcome to our homepage',
+    title: category ? `${category} Blog's` : "Home Page",
+    description: featured
+      ? featured.shortDescription
+      : "Welcome to our homepage",
     openGraph: {
-      title: category ? `Category: ${category}` : 'Home Page',
-      description: featured ? featured.shortDescription : 'Welcome to our homepage',
-      images: featured?.imageURL ? [featured.imageURL, ...previousImages] : previousImages,
-      type: 'website',
+      title: category ? `Category: ${category}` : "Home Page",
+      description: featured
+        ? featured.shortDescription
+        : "Welcome to our homepage",
+      images: featured?.imageURL
+        ? [featured.imageURL, ...previousImages]
+        : previousImages,
+      type: "website",
       url: `http://194.164.125.204:4173`,
     },
     twitter: {
-      card: 'summary_large_image',
-      title: category ? `Category: ${category}` : 'Home Page',
-      description: featured ? featured.shortDescription : 'Welcome to our homepage',
+      card: "summary_large_image",
+      title: category ? `Category: ${category}` : "Home Page",
+      description: featured
+        ? featured.shortDescription
+        : "Welcome to our homepage",
     },
   };
 }
-
-
 
 // Fetch data at the server side
 export default async function HomePage({
@@ -87,10 +94,35 @@ export default async function HomePage({
   };
 
   return (
-    <div className="flex flex-row justify-center items-center w-5/5 flex-wrap bg-zinc-400 gap-2 pb-4 pt-4 min-h-screen h-0vh">
+    <div className="flex flex-row justify-center items-center w-5/5 flex-wrap bg-black gap-2 pb-4 pt-4 min-h-screen h-0vh">
+      <Particles
+        className="absolute inset-0 -z-1 animate-fade-in w-full h-full"
+        quantity={100}
+      />
       <div className="relative pb-16">
+        
         <div className="flex flex-row justify-center flex-wrap items-center w-12/12 h-fit gap-4 p-2 pt-16">
-          <Button key={-1} catergory={"All"} />
+          <LinkA key={-1} href={"/categories/All"}>
+            <button
+              key={-1}
+              className="w-fit h-fit p-4 pt-1 pb-1 bg-gray-500 border-solid border-4 rounded-xl text-zinc-200"
+              style={{
+                zIndex: "15",
+                borderRadius: "15px",
+                borderColor: "transparent",
+                backgroundColor: "#000000",
+                boxShadow: "2px 2px 4px #96969e, -2px -2px 2px #acacb6",
+              }}
+              // onClick={() => {
+              //   console.log("clicked");
+              //   //setBlogCategory(category);
+              //   window.location.href = "/categories/" + category;
+              //   //setCatergoryState(category);
+              // }}
+            >
+              All
+            </button>
+          </LinkA>
           {categoriesList.map((category, index) => {
             if (index < 10) {
               return (
@@ -102,8 +134,8 @@ export default async function HomePage({
                       zIndex: "15",
                       borderRadius: "15px",
                       borderColor: "transparent",
-                      backgroundColor: "#A1A1AA",
-                      boxShadow: "8px 8px 16px #96969e, -8px -8px 16px #acacb6",
+                      backgroundColor: "#000000",
+                      boxShadow: "2px 2px 4px #96969e, -2px -2px 2px #acacb6",
                     }}
                     // onClick={() => {
                     //   console.log("clicked");
@@ -151,7 +183,7 @@ export default async function HomePage({
                         <span>SOON</span>
                       )}
                     </div>
-                    <span className="flex items-center gap-1 text-xs text-black-500">
+                    <span className="flex items-center gap-1 text-xs text-gray-50">
                       <Eye className="w-4 h-4" />{" "}
                       {Intl.NumberFormat("en-US", {
                         notation: "compact",
@@ -161,15 +193,15 @@ export default async function HomePage({
 
                   <h2
                     id="featured-post"
-                    className="mt-4 text-3xl font-bold text-black-100 group-hover:text-white sm:text-4xl font-display"
+                    className="mt-4 text-3xl font-bold text-gray-50 group-hover:text-white sm:text-4xl font-display"
                   >
                     {featured?.title}
                   </h2>
-                  <p className="mt-4 leading-8 duration-150 text-black-400 group-hover:text-black-300">
+                  <p className="mt-4 leading-8 duration-150 text-gray-50 group-hover:text-gray-50">
                     {featured?.shortDescription}
                   </p>
                   <div className="absolute bottom-4 md:bottom-8">
-                    <p className="hidden text-black-200 hover:text-black-50 lg:block">
+                    <p className="hidden text-gray-50 hover:text-gray-50 lg:block">
                       Read more <span aria-hidden="true">&rarr;</span>
                     </p>
                   </div>
