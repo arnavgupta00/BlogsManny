@@ -209,7 +209,7 @@ export default async function HomePage({
               </LinkA>
             </Card>
 
-            <div className="flex flex-col w-full gap-8 mx-auto border-t border-black-900/10 lg:mx-0 lg:border-t-0">
+            <div className="flex flex-col w-full gap-8 mx-auto border-t border-black-900/10 lg:mx-0 border-t-0 ">
               {[top2, top3].map((project) => (
                 <Card key={project?.id}>
                   <Article
