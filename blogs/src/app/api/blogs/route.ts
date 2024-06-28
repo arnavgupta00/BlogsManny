@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
-  const { sender, category, title, shortDescription, content, imageURL, URL, password } = await req.json();
+  const { sender, category, title, shortDescription, content, imageURL, URL, password , draft } = await req.json();
 
   if (password !== process.env.ADMIN_PASSWORD) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -19,15 +19,37 @@ export async function POST(req: NextRequest) {
         shortDescription,
         content,
         imageURL,
-        URL
+        URL,
+        draft: draft ? draft : false,
+        likes: 0 
       }
     });
 
     return NextResponse.json(newBlog, { status: 201 });
   } catch (err) {
-	console.log(err);
+    console.log(err);
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
+}
+
+export async function PUT(req: NextRequest) {
+  const { blogID, password, draft } = await req.json();
+  const id = parseInt(blogID);
+  if (password !== process.env.ADMIN_PASSWORD) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  try {
+    const updatedBlog = await prisma.message.update({
+      where: { id },
+      data: { draft: draft }
+    });
+
+    return NextResponse.json(updatedBlog, { status: 200 });
+  } catch (err) {
+    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+  }
+
 }
 
 export async function DELETE(req: NextRequest) {

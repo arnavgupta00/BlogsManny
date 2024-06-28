@@ -15,6 +15,7 @@ interface Message {
 export default Message;
 
 interface Project {
+    id?: number;
     URL?: string;
     title: string;
     repository?: string;

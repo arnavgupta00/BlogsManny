@@ -35,7 +35,11 @@ const router = useRouter();
         <div className="h-full w-5/6 bg-white p-6 flex flex-col justify-start items-center gap-4 overflow-y-scroll">
           <h1 className="text-2xl font-bold text-gray-700 mb-4">Blog Posts</h1>
           {blogs &&
-            blogs.map((blog: { title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; category: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; sender: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; id: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; views: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; }, index: React.Key | null | undefined) => {
+            blogs.map((blog: {
+              likes: number;
+              draft: boolean; title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; category: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; sender: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; id: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; views: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; 
+}, index: React.Key | null | undefined) => {
+  console.log(blog)
               return (
                 <div
                   key={index}
@@ -43,7 +47,7 @@ const router = useRouter();
                   //onClick={()=>router.push(`/categories/blogs/${blog.id}`)}
                 >
                   <div className="w-5/6   flex flex-col gap-2">
-                    <div className="text-lg font-semibold cursor-pointer" onClick={()=>router.push(`/categories/blogs/${blog.id}`)}>{blog.title}</div>
+                    <div className="text-lg font-semibold cursor-pointer" onClick={()=>router.push(`/categories/blogs/${blog.id}`)}>{blog.title} {blog.draft ? "(Draft)":""}</div>
                     <div className="text-sm font-medium cursor-pointer" onClick={()=>router.push(`/categories/${blog.category}`)}>{blog.category}</div>
                     <div className="text-sm text-gray-500">{blog.sender}</div>
                     <div className="text-sm text-gray-500">
@@ -51,6 +55,9 @@ const router = useRouter();
                     </div>
                     <div className="text-sm text-gray-500">
                       Views: {blog.views}
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      Likes: {blog.likes}
                     </div>
                   </div>
                   <div className="w-1/6 flex flex-col justify-center gap-2 items-center">

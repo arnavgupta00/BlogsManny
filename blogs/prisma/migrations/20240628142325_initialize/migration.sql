@@ -1,0 +1,21 @@
+-- AlterTable
+ALTER TABLE `Message` ADD COLUMN `dislikes` INTEGER NULL DEFAULT 0,
+    ADD COLUMN `draft` BOOLEAN NULL DEFAULT false,
+    ADD COLUMN `likes` INTEGER NULL DEFAULT 0;
+
+-- CreateTable
+CREATE TABLE `Comment` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `messageId` INTEGER NOT NULL,
+    `user` VARCHAR(191) NOT NULL,
+    `content` VARCHAR(191) NOT NULL,
+    `timestamp` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `likes` INTEGER NOT NULL DEFAULT 0,
+    `dislikes` INTEGER NOT NULL DEFAULT 0,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Comment` ADD CONSTRAINT `Comment_messageId_fkey` FOREIGN KEY (`messageId`) REFERENCES `Message`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

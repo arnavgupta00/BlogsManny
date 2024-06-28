@@ -1,6 +1,6 @@
 "use server";
 import { prismaConnect } from "@/db/prismaGenerate";
-import axios from 'axios';
+import axios from "axios";
 
 var loginBoolean = false;
 export async function SetloginState(email: string, password: string) {
@@ -22,6 +22,32 @@ export async function getLoginState() {
   return loginBoolean;
 }
 
+export async function getComments() {
+  const prisma = prismaConnect;
+  const comments = await prisma.comment.findMany({
+    select: {
+      content: true,
+      messageId: true,
+      user: true,
+      id: true,
+      likes: true,
+    },
+    orderBy: {
+      id: "desc",
+    },
+  });
+
+  prisma.$disconnect();
+  return comments;
+}
+export async function deleteComment(id: number) {
+  const prisma = prismaConnect;
+  const deleteComment = await prisma.comment.delete({
+    where: { id: id },
+  });
+  prisma.$disconnect();
+  return deleteComment;
+}
 export async function getBlogs() {
   const prisma = prismaConnect;
   const blogs = await prisma.message.findMany({
@@ -31,6 +57,8 @@ export async function getBlogs() {
       sender: true,
       id: true,
       views: true,
+      draft: true,
+      likes: true,
     },
     orderBy: {
       id: "desc",

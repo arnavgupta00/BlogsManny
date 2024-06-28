@@ -4,6 +4,9 @@ import { postBlog } from "@/components/fetch/getBlogs";
 import { SideBar } from "../sidebar";
 import { getLoginState } from "../loginState";
 import Admin from "../adminLogin";
+import { Editor } from "@tinymce/tinymce-react";
+import BlogPage from "../components/preview";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   sender: string;
@@ -17,7 +20,10 @@ interface FormData {
 }
 
 const BlogForm: React.FC = () => {
+  const [blogId, setBlogId] = useState<string>();
   const [loginState, setLoginState] = useState<boolean>(false);
+  const router = useRouter();
+
   const [formData, setFormData] = useState<FormData>({
     sender: "",
     category: "",
@@ -29,6 +35,18 @@ const BlogForm: React.FC = () => {
     password: "",
   });
 
+  const handleEditorChange = (content: any, editor: any) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      content: content,
+    }));
+  };
+  const handleEditorShortDescriptionChange = (content: any) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      shortDescription: content,
+    }));
+  };
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -37,10 +55,25 @@ const BlogForm: React.FC = () => {
     }));
   };
 
+  const handleDraftSave = async (e: FormEvent) => {
+    try {
+      const response = await postBlog({ ...formData, draft: true });
+      if (response) {
+        router.push("/admin");
+        console.log("Blog Saved successfully");
+      } else {
+        // Handle error response
+        console.error("Failed to create blog");
+      }
+    } catch (error: any) {
+      console.error("Error creating blog:", error.message);
+    }
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await postBlog(formData);
+      const response = await postBlog({...formData, draft: false});
       if (response) {
         // Blog created successfully
         // Redirect or display success message
@@ -63,6 +96,7 @@ const BlogForm: React.FC = () => {
       console.error("Error creating blog:", error.message);
     }
   };
+
   const fetchLoginState = async () => {
     setLoginState(await getLoginState());
   };
@@ -73,8 +107,13 @@ const BlogForm: React.FC = () => {
     return <Admin />;
   } else {
     return (
-      <div className="w-screen h-screen flex flex-row bg-gray-100">
-        <div className="h-full w-1/6 bg-gray-700">
+      <div
+        className="w-screen h-full flex flex-row bg-gray-100"
+        style={{
+          overflowX: "hidden",
+        }}
+      >
+        <div className="h-full w-1/6  mt-12">
           <SideBar />
         </div>
         <div
@@ -82,10 +121,19 @@ const BlogForm: React.FC = () => {
           style={{ overflowY: "scroll" }}
         >
           <div className="w-full mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
-            <h2 className="text-2xl font-semibold mb-4 text-center text-gray-700">
-              Create a New Blog
-            </h2>
-            <form onSubmit={handleSubmit}>
+            <div className="w-full flex gap-4 justify-between ">
+              <h2 className="text-2xl font-semibold mb-4 text-center text-gray-700">
+                Create a New Blog
+              </h2>
+              <button
+                onClick={handleDraftSave}
+                className="w-48 mb-8 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 align-emd"
+              >
+                Save as Draft
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="mb-8">
               <div className="flex w-full flex-row justify-center items-center gap-2">
                 <div className="mb-4 w-4/12">
                   <label
@@ -144,13 +192,23 @@ const BlogForm: React.FC = () => {
                 >
                   Short Description:
                 </label>
-                <textarea
-                  id="shortDescription"
-                  name="shortDescription"
+                <Editor
+                  apiKey="ac8knsnqcp1rix0ctd8364iqb9qgqb44oujndmiymppcpbgr"
                   value={formData.shortDescription}
-                  onChange={handleChange}
-                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                ></textarea>
+                  init={{
+                    height: 200,
+                    menubar: true,
+
+                    plugins: [
+                      "advlist autolink lists link image charmap print preview anchor",
+                      "searchreplace visualblocks code fullscreen",
+                      "insertdatetime media table paste code help wordcount",
+                    ],
+                    toolbar:
+                      "undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help | image",
+                  }}
+                  onEditorChange={handleEditorShortDescriptionChange}
+                />
               </div>
               <div className="mb-4">
                 <label
@@ -159,16 +217,26 @@ const BlogForm: React.FC = () => {
                 >
                   Content:
                 </label>
-                <textarea
-                  id="content"
-                  name="content"
+                <Editor
+                  apiKey="ac8knsnqcp1rix0ctd8364iqb9qgqb44oujndmiymppcpbgr"
                   value={formData.content}
-                  onChange={handleChange}
-                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                ></textarea>
+                  init={{
+                    height: 500,
+                    menubar: true,
+
+                    plugins: [
+                      "advlist autolink lists link image charmap print preview anchor",
+                      "searchreplace visualblocks code fullscreen",
+                      "insertdatetime media table paste code help wordcount",
+                    ],
+                    toolbar:
+                      "undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help | image",
+                  }}
+                  onEditorChange={handleEditorChange}
+                />
               </div>
               <div className="flex w-full flex-row justify-center items-center gap-2">
-                <div className="mb-4 w-1/3">
+                {/* <div className="mb-4 w-1/3">
                   <label
                     htmlFor="imageURL"
                     className="block text-sm font-medium text-gray-700"
@@ -183,8 +251,8 @@ const BlogForm: React.FC = () => {
                     onChange={handleChange}
                     className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                   />
-                </div>
-                <div className="mb-4 w-1/3">
+                </div> */}
+                <div className="mb-4 w-3/6">
                   <label
                     htmlFor="URL"
                     className="block text-sm font-medium text-gray-700"
@@ -200,7 +268,7 @@ const BlogForm: React.FC = () => {
                     className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                   />
                 </div>
-                <div className="mb-4 w-1/3">
+                <div className="mb-4 w-3/6">
                   <label
                     htmlFor="password"
                     className="block text-sm font-medium text-gray-700"
@@ -225,6 +293,12 @@ const BlogForm: React.FC = () => {
                 Submit
               </button>
             </form>
+            <div className="w-full mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
+              <h2 className="text-2xl font-bold mb-4 text-left text-gray-700">
+                Preview
+              </h2>
+            </div>
+            {formData && <BlogPage params={{ fetchResultProp: formData }} />}
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ export const SideBar = () => {
   const router = useRouter();
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-start gap-4 p-4 bg-gray-700 text-white">
+    <div className="w-full h-full flex flex-col justify-start items-start gap-4 p-4 bg-transparent-700 text-white">
       <div
         className="w-full p-3 font-semibold bg-white text-black shadow-md rounded-lg cursor-pointer hover:bg-gray-200 transition duration-300"
         onClick={() => {
@@ -23,6 +23,14 @@ export const SideBar = () => {
         }}
       >
         Post Blog
+      </div>
+      <div
+        className="w-full p-3 font-semibold bg-white text-black shadow-md rounded-lg cursor-pointer hover:bg-gray-200 transition duration-300"
+        onClick={() => {
+          router.push("/admin/comments");
+        }}
+      >
+        Comments
       </div>
       
     </div>

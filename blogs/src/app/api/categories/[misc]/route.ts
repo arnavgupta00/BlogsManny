@@ -10,6 +10,9 @@ export async function GET(req: NextRequest,{ params }: { params: { misc: string 
       select: {
         category: true
       },
+      where: {
+        draft: false
+      },
       distinct: ['category']
     });
 
