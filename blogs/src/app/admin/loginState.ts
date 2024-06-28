@@ -80,6 +80,10 @@ export async function updateBlog(id: number, data: any) {
     });
     prisma.$disconnect();
     return update;
+  }else{
+    prisma.$disconnect();
+    return null;
+  
   }
 }
 
